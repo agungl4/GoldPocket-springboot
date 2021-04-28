@@ -1,11 +1,16 @@
 package com.enigma.pocket.service;
 
+import com.enigma.pocket.dto.CustomerSearchDto;
+import com.enigma.pocket.entity.Customer;
 import com.enigma.pocket.entity.Pocket;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface PocketService {
-    public Pocket getPocketById(String id);
-    public List<Pocket> findAllPocket();
+    public Pocket findPocketById(String id);
+    //public Page<Customer> findCustomers(CustomerSearchDto customerSearchForm, Pageable pageable);
     public Pocket createNewPocket(Pocket pocket);
+    public Pocket updatePocket(Pocket pocket);
+    public void topUp(Pocket pocket, Double qty);
+    //public void removeCustomer(String id);
 }

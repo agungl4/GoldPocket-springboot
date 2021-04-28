@@ -5,25 +5,30 @@ import com.enigma.pocket.repository.PocketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class PocketServiceImpl implements PocketService{
     @Autowired
     PocketRepository pocketRepository;
 
     @Override
-    public Pocket getPocketById(String id){
-        return null;
+    public Pocket findPocketById(String id) {
+        return pocketRepository.findById(id).get();
     }
 
     @Override
-    public List<Pocket> findAllPocket(){
-        return null;
-    }
-
-    @Override
-    public Pocket createNewPocket(Pocket pocket){
+    public Pocket createNewPocket(Pocket pocket) {
+        pocket.setPocketQty(0.0);
         return pocketRepository.save(pocket);
+    }
+
+    @Override
+    public Pocket updatePocket(Pocket pocket) {
+        return pocketRepository.save(pocket);
+    }
+
+    @Override
+    public void topUp(Pocket pocket, Double qty) {
+        pocket.setPocketQty(pocket.getPocketQty()+qty);
+        pocketRepository.save(pocket);
     }
 }

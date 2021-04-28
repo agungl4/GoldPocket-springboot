@@ -5,13 +5,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 public class CustomerSearchDto {
+
     private String id;
+
     private String firstName;
     private String lastName;
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    private Date birthDate;
+
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     private Date startDate;
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
     private String address;
     private Integer status;
     private String username;
@@ -40,6 +45,14 @@ public class CustomerSearchDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public Date getStartDate() {
@@ -96,21 +109,5 @@ public class CustomerSearchDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "CustomerSearchDto{" +
-                "id='" + id + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", address='" + address + '\'' +
-                ", status=" + status +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

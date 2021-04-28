@@ -1,7 +1,7 @@
 package com.enigma.pocket.specification;
 
+import com.enigma.pocket.dto.CustomerSearchDto;
 import com.enigma.pocket.entity.Customer;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
@@ -13,24 +13,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class CustomerSpecification {
-    public  static Specification<Customer> findCustomers(Customer customerSearchForm) {
-
+    public static Specification<Customer> findCustomers(CustomerSearchDto customerSearchForm){
         return new Specification<Customer>() {
             @Override
             public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                final Collection<Predicate> predicates = new ArrayList<>();
+                final Collection<Predicate> predicates = new ArrayList<Predicate>();
 
-                if(!(customerSearchForm.getFirstName()==null || StringUtils.hasLength(customerSearchForm.getFirstName()))){
-                    final Predicate firstNamePredicate = criteriaBuilder.like(root.get("firstName"), "%");
-                    predicates.add(firstNamePredicate);
+                if(!(customerSearchForm.getFirstName()==null) || customerSearchForm.getFirstName().equals("")){
+                    final Predicate firstNamePredicate = criteriaBuilder.like(root.get("firstName"),"%"+customerSearchForm.getFirstName()+"%");
+                    predicates.add(firstNamePredicate); //memasukkan ke dalam list predicate
                 }
-                if(!(customerSearchForm.getLastName()==null || StringUtils.hasLength(customerSearchForm.getLastName()))){
-                    final Predicate lastNamePredicate = criteriaBuilder.like(root.get("lastName"), "%");
+                if(!(customerSearchForm.getLastName()==null) || customerSearchForm.getLastName().equals("")){
+                    final Predicate lastNamePredicate = criteriaBuilder.like(root.get("lastName"),"%"+customerSearchForm.getLastName()+"%");
                     predicates.add(lastNamePredicate);
                 }
-
-
-                return criteriaBuilder.and((predicates.toArray(new Predicate[predicates.size()])));
+                //where ... firstname
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
     }

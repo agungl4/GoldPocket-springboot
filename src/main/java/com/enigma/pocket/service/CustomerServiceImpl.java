@@ -1,31 +1,42 @@
 package com.enigma.pocket.service;
 
+import com.enigma.pocket.dto.CustomerSearchDto;
 import com.enigma.pocket.entity.Customer;
 import com.enigma.pocket.repository.CustomerRepository;
+import com.enigma.pocket.specification.CustomerSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.OffsetDateTime;
-import java.util.List;
 @Service
-public class CustomerServiceImpl implements CustomerService{
-//    private final String notFoundMsg = "cust with id %s not found";
+public class CustomerServiceImpl implements CustomerService {
+    private final String notFoundMessage = "Customer with id='%s' is Not Found";
 
     @Autowired
     CustomerRepository customerRepository;
 
     @Override
     public Customer findCustomerById(String id) {
-        return null;
+        validatePresent(id);
+        Customer customer = customerRepository.findById(id).get();
+        return customer;
+    }
+
+    private void validatePresent(String id) {
+        if(!customerRepository.findById(id).isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(notFoundMessage, id));
+        }
     }
 
     @Override
-    public List<Customer> findCustomers(String firstName, String email, Pageable pageable) {
-        return null;
+    public Page<Customer> findCustomers(CustomerSearchDto customerSearchForm, Pageable pageable) {
+        return customerRepository.findAll(CustomerSpecification.findCustomers(customerSearchForm), pageable);
+        //return customerRepository.findAllByFirstNameStartingWithAndEmailContainingAndBirthDateBetween(firstName, email, startDate, endDate, pageable);
     }
+
 
     @Override
     public void createCustomer(Customer customer) {
@@ -34,22 +45,14 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void updateCustomer(Customer customer) {
-//        validatePresent(customer.getId());
+        validatePresent(customer.getId());
         customerRepository.save(customer);
     }
 
-//    private boolean isCustomerPresent(Customer customer) {
-//        return customerRepository.findById(customer.getId()).isPresent();
-//    }
-//
-//    private void validatePresent(String id){
-//        if(!customerRepository.findById(id).isPresent()){
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(notFoundMsg,id));
-//        }
-//    }
-
     @Override
-    public void removeCustomer(Integer id) {
-
+    public void removeCustomer(String id) {
+        customerRepository.delete(customerRepository.findById(id).get());
     }
+
+
 }
