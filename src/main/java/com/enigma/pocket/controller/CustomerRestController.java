@@ -24,10 +24,10 @@ public class CustomerRestController {
     //PostMapping
     //convention name untuk rest API
     //tergantung kesepakatan perusahaan
-//    @GetMapping("/customers") //pathvariable, harus sama dgn name di Anotation
-//    public List<Customer> getCustomers(){
-//        return customerService.findCustomers();
-//    }
+    @GetMapping("/customers") //pathvariable, harus sama dgn name di Anotation
+    public List<Customer> getCustomers(){
+        return customerService.findCustomers();
+    }
 //    @GetMapping("/customers") //pathvariable, harus sama dgn name di Anotation
 //    public List<Customer> getCustomers(@RequestParam(name = "firstName", defaultValue = "") String firstName,
 //                                       @RequestParam(name = "email", defaultValue = "") String email,
@@ -38,13 +38,13 @@ public class CustomerRestController {
 //        Pageable pageable = PageRequest.of(page,size);
 //        return customerService.findCustomers(firstName, email,startDate,endDate, pageable);
 //    }
-    @GetMapping("/customers")
-    public Page<Customer> getCustomers(@RequestBody CustomerSearchDto customerSearchFrom,
-                                       @RequestParam(name = "page", defaultValue = "0") Integer page,
-                                       @RequestParam(name = "size", defaultValue = "5") Integer size){
-        Pageable pageable = PageRequest.of(page,size);
-        return customerService.findCustomers(customerSearchFrom, pageable);
-    }
+//    @GetMapping("/customers")
+//    public Page<Customer> getCustomers(@RequestBody CustomerSearchDto customerSearchFrom,
+//                                       @RequestParam(name = "page", defaultValue = "0") Integer page,
+//                                       @RequestParam(name = "size", defaultValue = "5") Integer size){
+//        Pageable pageable = PageRequest.of(page,size);
+//        return customerService.findCustomers(customerSearchFrom, pageable);
+//    }
     @PostMapping("/customer")
     public void addNewCustomer(@RequestBody Customer customer){
         customerService.createCustomer(customer);

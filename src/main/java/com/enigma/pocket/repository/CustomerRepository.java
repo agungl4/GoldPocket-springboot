@@ -10,6 +10,6 @@ import java.sql.Date;
 import java.util.List;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, String>, JpaSpecificationExecutor<Customer> {
-    public List<Customer> findAllByFirstNameStartingWithAndEmailContainingAndBirthDateBetween(String firstName, String email, Date startDate, Date endDate, Pageable pageable);
+public interface CustomerRepository extends JpaRepository<Customer, String> {
+//    public List<Customer> findAllByFirstNameStartingWithAndEmailContainingAndBirthDateBetween(String firstName, String email, Date startDate, Date endDate, Pageable pageable);
 }

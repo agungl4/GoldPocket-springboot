@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final String notFoundMessage = "Customer with id='%s' is Not Found";
@@ -31,11 +33,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    @Override
-    public Page<Customer> findCustomers(CustomerSearchDto customerSearchForm, Pageable pageable) {
-        return customerRepository.findAll(CustomerSpecification.findCustomers(customerSearchForm), pageable);
-        //return customerRepository.findAllByFirstNameStartingWithAndEmailContainingAndBirthDateBetween(firstName, email, startDate, endDate, pageable);
-    }
+//    @Override
+//    public Page<Customer> findCustomers(CustomerSearchDto customerSearchForm, Pageable pageable) {
+//        return customerRepository.findAll(CustomerSpecification.findCustomers(customerSearchForm), pageable);
+//        //return customerRepository.findAllByFirstNameStartingWithAndEmailContainingAndBirthDateBetween(firstName, email, startDate, endDate, pageable);
+//    }
 
 
     @Override
@@ -52,6 +54,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void removeCustomer(String id) {
         customerRepository.delete(customerRepository.findById(id).get());
+    }
+
+    @Override
+    public List<Customer> findCustomers() {
+        return customerRepository.findAll();
     }
 
 
