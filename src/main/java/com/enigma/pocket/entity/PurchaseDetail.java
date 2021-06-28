@@ -8,32 +8,27 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "t_purchase_details")
 public class PurchaseDetail {
+
     @Id
-    @Column(name = "purchase_detail_id")
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "purchase_detail_id")
     private String id;
 
-    private BigDecimal price;
-    private Double quantityInGram;
-
-    @ManyToOne //banyak detail satu product
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    private BigDecimal price;
+    private Double quantityInGram;
     @ManyToOne
     @JoinColumn(name = "purchase_id")
-    private Purchase purchase;
+    private Purchases purchases;
+
     @ManyToOne
     @JoinColumn(name = "pocket_id")
     private Pocket pocket;
 
-    public Pocket getPocket() {
-        return pocket;
-    }
 
-    public void setPocket(Pocket pocket) {
-        this.pocket = pocket;
-    }
 
     public String getId() {
         return id;
@@ -41,6 +36,14 @@ public class PurchaseDetail {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public BigDecimal getPrice() {
@@ -59,19 +62,21 @@ public class PurchaseDetail {
         this.quantityInGram = quantityInGram;
     }
 
-    public Product getProduct() {
-        return product;
+    public Purchases getPurchases() {
+        return purchases;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setPurchases(Purchases purchases) {
+        this.purchases = purchases;
     }
 
-    public Purchase getPurchase() {
-        return purchase;
+    public Pocket getPocket() {
+        return pocket;
     }
 
-    public void setPurchase(Purchase purchase) {
-        this.purchase = purchase;
+    public void setPocket(Pocket pocket) {
+        this.pocket = pocket;
     }
+
+
 }

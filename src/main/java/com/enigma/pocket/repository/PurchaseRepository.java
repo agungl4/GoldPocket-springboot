@@ -1,9 +1,8 @@
 package com.enigma.pocket.repository;
 
-import com.enigma.pocket.entity.Purchase;
+import com.enigma.pocket.entity.Purchases;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface PurchaseRepository extends JpaRepository<Purchase,String> {
+public interface PurchaseRepository extends JpaRepository<Purchases, String> {
+
 }

@@ -1,5 +1,6 @@
 package com.enigma.pocket.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,59 +11,54 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "m_products") ///m (master) t(transaksi) l(logging)
+@Table(name = "m_products")
 public class Product {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    @Column(name = "id")
+    private String idProduct;
 
-    //hybird naming strategy
-    //firstN first_n
-    private String productName; // bisa uto detect jadi snake
-    private BigDecimal productPriceBuy;
-    private BigDecimal productPriceSell;
+    @Column(name = "product_name")
+    private String productName;
+
+    @Column(name = "product_image")
     private String productImage;
+
+    @Column(name = "product_price_buy")
+    private BigDecimal productPriceBuy;
+
+    @Column(name = "product_price_sell")
+    private BigDecimal productPriceSell;
+
+    @Column(name = "product_status")
     private Integer productStatus;
+
+    @OneToMany(mappedBy = "product")
+    //@JsonIgnore
+    private List<HistoryProduct> historyProducts = new ArrayList<>();
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private Date created_at;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private Date updated_at;
 
-    @OneToMany(mappedBy = "product")//aku disebut di product histori sebagai apa
-    private List<ProductHistoryPrice> productHistories = new ArrayList<>();
+    public Product() {
 
-    public List<ProductHistoryPrice> getProductHistories() {
-        return productHistories;
     }
 
-    public void setProductHistories(List<ProductHistoryPrice> productHistories) {
-        this.productHistories = productHistories;
+    public String getIdProduct() {
+        return idProduct;
     }
 
-    public String getId() {
-        return id;
+    public Product(Date created_at, Date updated_at) {
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getProductImage() {
-        return productImage;
-    }
-
-    public void setProductImage(String productImage) {
-        this.productImage = productImage;
+    public void setIdProduct(String idProduct) {
+        this.idProduct = idProduct;
     }
 
     public String getProductName() {
@@ -71,6 +67,14 @@ public class Product {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 
     public BigDecimal getProductPriceBuy() {
@@ -97,27 +101,41 @@ public class Product {
         this.productStatus = productStatus;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
+    public Date getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public List<HistoryProduct> getHistoryProducts() {
+        return historyProducts;
+    }
+
+    public void setHistoryProducts(List<HistoryProduct> historyProducts) {
+        this.historyProducts = historyProducts;
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "productId=" + id +
-                ", createdAt=" + createdAt +
-                ", productImage='" + productImage + '\'' +
+                "idProduct='" + idProduct + '\'' +
                 ", productName='" + productName + '\'' +
+                ", productImage='" + productImage + '\'' +
                 ", productPriceBuy=" + productPriceBuy +
                 ", productPriceSell=" + productPriceSell +
                 ", productStatus=" + productStatus +
-                ", updateAt=" + updatedAt +
+                ", created_at=" + created_at +
+                ", update_at=" + updated_at +
                 '}';
     }
-
 }
-

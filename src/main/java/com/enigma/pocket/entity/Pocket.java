@@ -4,14 +4,15 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "m_pockets")
 public class Pocket {
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
-
     private String pocketName;
     private Double pocketQty;
 
@@ -22,25 +23,6 @@ public class Pocket {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Pocket() {
-    }
 
     public String getId() {
         return id;
@@ -65,4 +47,21 @@ public class Pocket {
     public void setPocketQty(Double pocketQty) {
         this.pocketQty = pocketQty;
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }
+

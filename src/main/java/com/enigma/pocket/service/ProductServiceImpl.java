@@ -1,65 +1,79 @@
 package com.enigma.pocket.service;
 
 import com.enigma.pocket.dto.ProductSearchDto;
+import com.enigma.pocket.entity.HistoryProduct;
 import com.enigma.pocket.entity.Product;
-import com.enigma.pocket.entity.ProductHistoryPrice;
 import com.enigma.pocket.repository.ProductRepository;
-import com.enigma.pocket.specification.ProductSpecification;
+import com.enigma.pocket.specification.ProductSpesification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService{
+
+    private final String notFoundMessage = "Product with id:%s Not FOund";
+
     @Autowired
     ProductRepository productRepository;
 
     @Autowired
-    ProductHistoryPriceService productHistoryPriceService;
+    HistoryProductService historyProductService;
 
     @Override
-    public Product getProductById(String id) {
-        return productRepository.findById(id).get();
+    public Product findProductById(String id) {
+        validatePresent(id);
+        Product product = productRepository.findById(id).get();
+        return product;
     }
 
     @Override
-    public Page<Product> searchProduct(ProductSearchDto productSearchForm, Pageable pageable) {
-        return productRepository.findAll(ProductSpecification.findProducts(productSearchForm), pageable);
+    public List<Product> findProduct() {
+        return productRepository.findAll();
     }
 
-//    @Override
-//    public void saveProduct(Product product, ProductHistoryPrice productHistoryPrice) {
-//        //productRepository.save(product);
-//        product.getProductHistories().add(productHistoryPrice);
-//        productRepository.save(product);
-//    }
+    @Override
+    public Page<Product> findProductAll(ProductSearchDto productSearchDto, Pageable pageable) {
 
+        return productRepository.findAll(ProductSpesification.findProduct(productSearchDto),pageable);
+    }
 
-        @Override
-    public Product saveProduct(Product product) {
-        product.setCreatedAt(new Date());
-        product.setUpdatedAt(new Date());
-        //simpan prduct
-        Product savedProduct = productRepository.save(product);
-        //simpan ke history
-        ProductHistoryPrice productHistoryPrice = new ProductHistoryPrice(savedProduct);
-        productHistoryPriceService.createHistory(productHistoryPrice);
-        return savedProduct;
+    @Override
+    public Product createdProduct(Product product) {
+        product.setCreated_at(new Date());
+        product.setUpdated_at(new Date());
+        Product saveProduct = productRepository.save(product);
+        HistoryProduct historyProduct= new HistoryProduct(saveProduct);
+        historyProductService.logPrice(historyProduct);
+        return productRepository.save(product);
     }
 
     @Override
     public Product updateProduct(Product product) {
-        product.setCreatedAt(product.getCreatedAt());
-        product.setUpdatedAt(new Date());
-        //simpan product
-        Product savedProduct = productRepository.save(product);
-        //simpan history
-        ProductHistoryPrice productHistoryPrice = new ProductHistoryPrice(savedProduct);
-        productHistoryPriceService.createHistory(productHistoryPrice);
-        return savedProduct;
+        validatePresent(product.getIdProduct());
+        product.setUpdated_at(new Date());
+        Product saveProduct = productRepository.save(product);
+        HistoryProduct historyProduct= new HistoryProduct(saveProduct);
+        historyProductService.logPrice(historyProduct);
+        return productRepository.save(product);
     }
+
+    @Override
+    public void deleteProduct(String id) {
+        productRepository.deleteById(id);
+    }
+
+    private void validatePresent(String id) {
+        if (!productRepository.findById(id).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(notFoundMessage, id));
+        }
+    }
+
 }

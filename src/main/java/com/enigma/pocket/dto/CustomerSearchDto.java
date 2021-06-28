@@ -2,21 +2,18 @@ package com.enigma.pocket.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 public class CustomerSearchDto {
 
     private String id;
-
     private String firstName;
     private String lastName;
-    private Date birthDate;
-
-    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
-
     private String address;
     private Integer status;
     private String username;
@@ -45,14 +42,6 @@ public class CustomerSearchDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
     }
 
     public Date getStartDate() {
@@ -110,4 +99,5 @@ public class CustomerSearchDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

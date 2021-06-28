@@ -1,12 +1,21 @@
 package com.enigma.pocket.dto;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 
 public class WalletDto {
-
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid",strategy = "uuid")
     private String id;
     private String phoneNumber;
     private BigDecimal balance;
+
+    public WalletDto() {
+    }
 
     public WalletDto(String phoneNumber, BigDecimal balance) {
         this.phoneNumber = phoneNumber;

@@ -5,37 +5,28 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Date;
 
-//nama table harus sama dgn di db
 @Entity
-@Table(name = "m_customers")
+@Table(name="m_customers")
 public class Customer {
 
-    @Id
-    @GeneratedValue (generator = "system-uuid")
+    @Id //primary key
+    @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     @Column(name = "first_name")
     private String firstName;
-    @Column (name = "last_name")
+    @Column(name = "last_name")
     private String lastName;
-    @Column (name = "birth_date")
+    @Column(name = "birth_date")
     private Date birthDate;
 
     private String address;
     private Integer status;
     private String username;
     private String password;
-    private String email;
     private String phoneNumber;
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    private String email;
 
     public String getId() {
         return id;
@@ -107,6 +98,14 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
