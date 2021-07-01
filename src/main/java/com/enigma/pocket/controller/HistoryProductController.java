@@ -16,7 +16,6 @@ public class HistoryProductController {
 
     @GetMapping("/history/{id}")
     public List<HistoryProduct> getHistoryId(@PathVariable(name = "id") String id){
-        System.out.println(id);
         return historyProductService.findProductById(id);
     }
 

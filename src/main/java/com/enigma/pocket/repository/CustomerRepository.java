@@ -18,4 +18,6 @@ public interface CustomerRepository extends JpaRepository<Customer, String>, Jpa
     @Query("SELECT c FROM Customer c WHERE c.status=1")
     List<Customer> findActiveCustomer();
 
+    Customer findCustomerByUsernameAndPassword(String username, String password);
+
 }

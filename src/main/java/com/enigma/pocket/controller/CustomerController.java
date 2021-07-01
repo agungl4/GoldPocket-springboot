@@ -4,6 +4,7 @@ import com.enigma.pocket.dto.CustomerSearchDto;
 import com.enigma.pocket.entity.Customer;
 import com.enigma.pocket.format.ResponseMessage;
 import com.enigma.pocket.service.CustomerService;
+import com.enigma.pocket.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,5 +43,12 @@ public class CustomerController {
     @PutMapping("/customers/update")
     public void updateCustomer(@RequestBody Customer customer){
         customerService.updateCustomer(customer);
+    }
+
+    @GetMapping("/customer/login")
+    public Response<Customer> findCredentialCustomer(@RequestParam(name = "username") String username,
+                                                     @RequestParam(name = "password") String password) {
+        Customer data = customerService.login(username, password);
+        return new Response<>(200, true, data);
     }
 }

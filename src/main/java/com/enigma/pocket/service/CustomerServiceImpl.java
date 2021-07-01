@@ -60,4 +60,9 @@ public class CustomerServiceImpl implements CustomerService{
     public void deleteCustomer() {
 
     }
+
+    @Override
+    public Customer login(String username, String password) {
+        return customerRepository.findCustomerByUsernameAndPassword(username, password);
+    }
 }

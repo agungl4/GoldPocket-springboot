@@ -64,14 +64,14 @@ public class PurchasesServiceImpl implements PurchasesService{
                 Pocket pocket = pocketService.getPocketById(purchaseDetail.getPocket().getId());
                 pocketService.topUp(pocket.getId(), purchaseDetail.getQuantityInGram());
                 purchaseDetail.setProduct(pocket.getProduct());
-                purchaseDetail.setPrice(pocket.getProduct().getProductPriceSell());
+                purchaseDetail.setPrice(pocket.getProduct().getProductPriceBuy());
                 purchaseDetail.setPurchases(purchases);
             }
             else {
                 Pocket pocket = pocketService.getPocketById(purchaseDetail.getPocket().getId());
                 pocketService.sellPocket(pocket.getId(), purchaseDetail.getQuantityInGram());
                 purchaseDetail.setProduct(pocket.getProduct());
-                purchaseDetail.setPrice(pocket.getProduct().getProductPriceBuy());
+                purchaseDetail.setPrice(pocket.getProduct().getProductPriceSell());
                 purchaseDetail.setPurchases(purchases);
             }
             total = total.add(purchaseDetail.getPrice().multiply(new BigDecimal(purchaseDetail.getQuantityInGram())));
