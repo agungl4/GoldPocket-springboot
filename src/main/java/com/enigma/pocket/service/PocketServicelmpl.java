@@ -1,6 +1,8 @@
 package com.enigma.pocket.service;
 
+import com.enigma.pocket.entity.Customer;
 import com.enigma.pocket.entity.Pocket;
+import com.enigma.pocket.entity.Product;
 import com.enigma.pocket.repository.PocketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,20 @@ public class PocketServicelmpl implements PocketService{
         Pocket pocket = getPocketById(id);
         pocket.setPocketQty(pocket.getPocketQty() - qty);
         pocketRepository.save(pocket);
+    }
+
+    @Override
+    public Pocket updatePocket(Pocket pocket) {
+        pocket.setCustomer(customerService.findCustomerById(pocket.getCustomer().getId()));
+        pocket.setProduct(productService.findProductById(pocket.getProduct().getIdProduct()));
+        pocket.setPocketQty(pocket.getPocketQty());
+//        pocket.setTotalPrice(pocket.getPocketQty() * product.getProductPriceBuy());
+        return pocketRepository.save(pocket);
+    }
+
+    @Override
+    public void deletePocket(String pocketId) {
+        pocketRepository.deleteById(pocketId);
     }
 
 }

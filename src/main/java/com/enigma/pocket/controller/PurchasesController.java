@@ -19,18 +19,18 @@ public class PurchasesController {
     @Autowired
     PurchaseRepository purchaseRepository;
 
-    @PostMapping("/purchase")
+    @PostMapping(path = "/purchase", produces = "application/json")
     public Purchases purchases(@RequestParam(name = "customerId") String customerId,
                                @RequestBody Purchases purchases) throws JsonProcessingException {
         return purchasesService.purchase(purchases, customerId);
     }
 
-    @GetMapping("/purchase")
+    @GetMapping(path = "/purchase", produces = "application/json")
     public List<Purchases> getAllPurchase(){
         return purchasesService.findAllPurchase();
     }
 
-    @GetMapping("/purchase/{id}")
+    @GetMapping(path = "/purchase/{id}", produces = "application/json")
     public List<Purchases> getPurchaseByCustomerId(@PathVariable(name = "id") String id) {
         return purchaseRepository.findPurchaseHistoryByCustomerId(id);
     }

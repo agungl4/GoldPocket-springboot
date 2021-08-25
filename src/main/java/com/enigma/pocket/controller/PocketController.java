@@ -34,5 +34,14 @@ public class PocketController {
         return pocketRepository.findPocketByCustomerId(id);
     }
 
+    @DeleteMapping("/pocket/{id}")
+    public String deletePocketById(@PathVariable(name = "id") String id) {
+        pocketService.deletePocket(id);
+        return "pocket " + id + " berhasil dihapus";
+    }
+
+    @PutMapping("/pocket")
+    public Pocket updatePocket(@RequestBody Pocket pocket) { return pocketService.updatePocket(pocket); }
+
 
 }

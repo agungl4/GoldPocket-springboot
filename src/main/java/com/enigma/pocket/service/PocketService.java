@@ -10,4 +10,6 @@ public interface PocketService {
     public Pocket createNewPocket(Pocket pocket);
     public void topUp(String id,Double qty);
     public void sellPocket (String id, Double qty);
+    public Pocket updatePocket(Pocket pocket);
+    public void deletePocket(String pocketId);
 }

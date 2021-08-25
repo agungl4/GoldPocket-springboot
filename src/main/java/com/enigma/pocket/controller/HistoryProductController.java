@@ -14,27 +14,27 @@ public class HistoryProductController {
     @Autowired
     HistoryProductService historyProductService;
 
-    @GetMapping("/history/{id}")
+    @GetMapping(path = "/history/{id}", produces = "application/json")
     public List<HistoryProduct> getHistoryId(@PathVariable(name = "id") String id){
         return historyProductService.findProductById(id);
     }
 
-    @GetMapping("/history")
+    @GetMapping(path = "/history", produces = "application/json")
     public List<HistoryProduct> getAllHistory(){
         return historyProductService.findProductAll();
     }
 
-    @PostMapping("/history/insert")
+    @PostMapping(path = "/history/insert", produces = "application/json")
     public void createNewHistory(@RequestBody HistoryProduct historyProduct){
         historyProductService.logPrice(historyProduct);
     }
 
-    @PutMapping("/history/update")
+    @PutMapping(path = "/history/update", produces = "application/json")
     public void updateProductId(@RequestBody HistoryProduct historyProduct){
         historyProductService.updateProduct(historyProduct);
     }
 
-    @DeleteMapping("/history/delete/{id}")
+    @DeleteMapping(path = "/history/delete/{id}", produces = "application/json")
     public void deleteId(@PathVariable(name = "id") String id){
         historyProductService.deleteProduct(id);
     }

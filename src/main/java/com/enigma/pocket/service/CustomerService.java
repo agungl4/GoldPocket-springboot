@@ -12,7 +12,7 @@ import java.util.List;
 public interface CustomerService {
     public Customer findCustomerById(String id);
     public Page<Customer> findCustomer(CustomerSearchDto customerSearchFoam, Pageable pageable);
-    public void createCustomer(Customer customer);
+    public Customer createCustomer(Customer customer);
     public void updateCustomer(Customer customer);
     public void deleteCustomer();
     Customer login(String username, String password);

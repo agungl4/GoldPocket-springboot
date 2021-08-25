@@ -23,15 +23,14 @@ public class ProductController {
     @Autowired
     HistoryProductService historyProductService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/product/{id}")
+    @GetMapping(path = "/product/{id}", produces = "application/json")
     public Product getProductId(@PathVariable(name = "id") String id){
 //        Product product = productService.findProductById(id);
 //        product.setHistoryProducts(product);
         return productService.findProductById(id);
     }
 
-    @GetMapping("/products")
+    @GetMapping(path = "/products", produces = "application/json")
     public Page<Product> getAllCustomer(@RequestBody ProductSearchDto productSearchDto,
                                         @RequestParam(name = "page",defaultValue = "0") Integer page,
                                         @RequestParam(name = "size",defaultValue = "5") Integer size){
@@ -39,17 +38,17 @@ public class ProductController {
         return productService.findProductAll(productSearchDto, pageable);
     }
 
-    @GetMapping("/product")
+    @GetMapping(path = "/product", produces = "application/json")
     public List<Product> getAllProduct(){
         return productService.findProduct();
     }
 
-    @PostMapping("/product/insert")
+    @PostMapping(path = "/product/insert", produces = "application/json")
     public Product createNewProduct(@RequestBody Product product,HistoryProduct historyProduct){
         return productService.createdProduct(product);
     }
 
-    @PutMapping("/product/update")
+    @PutMapping(path = "/product/update", produces = "application/json")
     public Product updateProductId(@RequestBody Product product){
         return productService.updateProduct(product);
     }
@@ -59,7 +58,7 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-    @GetMapping("/product/{id}/history")
+    @GetMapping(path = "/product/{id}/history", produces = "application/json")
     public List<HistoryProduct> getHistory(@PathVariable(name = "id") String id){
         return historyProductService.findProductAll();
     }

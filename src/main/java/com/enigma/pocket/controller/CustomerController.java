@@ -36,8 +36,9 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public void createNewCustomer(@RequestBody Customer customer){
-        customerService.createCustomer(customer);
+    public Response<Customer> createNewCustomer(@RequestBody Customer customer){
+        Customer data = customerService.createCustomer(customer);
+        return new Response<>(200,true, data);
     }
 
     @PutMapping("/customers/update")
@@ -45,10 +46,11 @@ public class CustomerController {
         customerService.updateCustomer(customer);
     }
 
-    @GetMapping("/customer/login")
+    @GetMapping("/customer")
     public Response<Customer> findCredentialCustomer(@RequestParam(name = "username") String username,
                                                      @RequestParam(name = "password") String password) {
         Customer data = customerService.login(username, password);
+        System.out.println(data);
         return new Response<>(200, true, data);
     }
 }
